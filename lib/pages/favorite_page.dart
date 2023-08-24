@@ -1,21 +1,31 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../constants.dart';
+import '../widgets/custom_cupertino_app_bar/custom_cupertino_app_bar.dart';
+import '../widgets/custom_cupertino_app_bar/custom_cupertino_app_bar_button.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text("Favorite repo list"),
-        leading: CupertinoButton.filled(
+    return Scaffold(
+      appBar: CustomCupertinoAppBar(
+        height: Constants.appBarHeight,
+        middleTitle: "Favorite repo list",
+        leading: CustomCupertinoAppBarButton(
           padding: EdgeInsets.zero,
-          child: Icon(CupertinoIcons.back),
           onPressed: () => context.pop(),
+          icon: SvgPicture.asset(
+            "assets/icons/left.svg",
+            height: Constants.appBarButtonIconHeight,
+          ),
         ),
       ),
-      child: Center(
+      body: Center(
         child: Text(toString()),
       ),
     );

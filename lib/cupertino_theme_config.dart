@@ -17,6 +17,7 @@ CupertinoThemeData _cupertinoThemeConfig = CupertinoThemeData(
     ),
     navTitleTextStyle: GoogleFonts.raleway(
       textStyle: TextStyle(
+        inherit: false,
         color: Color(0xFF211814),
         fontSize: 16.sp,
         fontWeight: FontWeight.w600,
