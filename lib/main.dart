@@ -6,10 +6,15 @@ import 'package:github_repo_viewer/pages/favorite_page.dart';
 import 'package:github_repo_viewer/pages/loading_page.dart';
 import 'package:github_repo_viewer/pages/search_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+part 'cupertino_theme_config.dart';
 part 'router_config.dart';
 
+
 void main() {
+  // GoogleFonts used to reduce code when connecting multi-file fonts.
+  GoogleFonts.config.allowRuntimeFetching = false; // Http font requests from server is disabled, assets only used
   runApp(const GithubRepoViewerApp());
 }
 
@@ -25,6 +30,7 @@ class GithubRepoViewerApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerConfig: _routerConfig,
           title: Constants.appTitle,
+          theme: _cupertinoThemeConfig,
         );
       },
     );
