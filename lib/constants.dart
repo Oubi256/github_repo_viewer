@@ -17,7 +17,10 @@ class Constants {
   static EdgeInsets verticalTextFieldPadding = EdgeInsets.only(top: 24.h, bottom: 16.h);
   static double verticalItemSeparatorHeight = 8.h;
   static double verticalHeaderSeparatorHeight = 8.h;
+  static double headerBottomSeparatorHeight = 20.h;
   static double searchCardHeight = 55.h;
+  static BorderRadius searchCardBorderRadius = BorderRadius.circular(10);
+  static EdgeInsets searchCardHorizontalPadding = EdgeInsets.symmetric(horizontal: 16.w);
   
   static double searchFieldHeight = 56.h;
   static BorderRadius searchFieldBorderRadius = BorderRadius.circular(30);

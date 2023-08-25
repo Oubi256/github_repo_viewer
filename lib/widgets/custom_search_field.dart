@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:github_repo_viewer/widgets/custom_svg_item_button.dart';
 
 import '../constants.dart';
 
@@ -70,10 +71,10 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
           height: Constants.searchFieldHeight,
           padding: Constants.searchFieldPrefixIconPadding,
           child: ElevatedButton(
-            onPressed: () {  },
+            onPressed: () {},
             style: TextButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
             child: SvgPicture.asset(
-              "assets/icons/search.svg",
+              'assets/icons/search.svg',
             ),
           ),
         ),
@@ -81,13 +82,12 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
           width: Constants.searchFieldHeight,
           height: Constants.searchFieldHeight,
           padding: Constants.searchFieldPrefixIconPadding,
-          child: clearButtonEnabled ? ElevatedButton(
-            onPressed: () {  },
-            style: TextButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-            child: SvgPicture.asset(
-              "assets/icons/close.svg",
-            ),
-          ) : null,
+          child: clearButtonEnabled
+              ? CustomSvgIconButton(
+                  onPressed: () {},
+                  svgIconAssetPath: 'assets/icons/close.svg',
+                )
+              : null,
         ),
       ),
     );

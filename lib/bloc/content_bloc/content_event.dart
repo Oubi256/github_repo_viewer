@@ -22,3 +22,7 @@ class RemoveGithubRepositoryFromFavoritesEvent extends ContentEvent {
 
   const RemoveGithubRepositoryFromFavoritesEvent(this.toRemove);
 }
+
+class StartInitEvent extends ContentEvent {
+  const StartInitEvent();
+}

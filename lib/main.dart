@@ -30,7 +30,7 @@ class GithubRepoViewerApp extends StatelessWidget {
     return RepositoryProvider(
       create: (context) => GithubApiRepository.init(),
       child: BlocProvider(
-        create: (context) => ContentBloc(githubApiRepository: context.read<GithubApiRepository>()),
+        create: (context) => ContentBloc(githubApiRepository: context.read<GithubApiRepository>())..add(const StartInitEvent()),
         child: ScreenUtilInit(
           designSize: const Size(393, 852),
           builder: (_, __) {

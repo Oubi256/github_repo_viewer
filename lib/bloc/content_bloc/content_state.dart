@@ -1,11 +1,13 @@
 part of 'content_bloc.dart';
 
+typedef SearchQueries = List<String>;
+
 @immutable
 abstract class ContentState {
   final List<GithubRepository> githubRepositories;
   final List<GithubRepository> favoritesRepositories;
-  final List<String> searchHistory;
-  final List<String> favoritesHistory;
+  final SearchQueries searchHistory;
+  final SearchQueries favoritesHistory;
 
 
   const ContentState({required this.githubRepositories, required this.favoritesRepositories, required this.searchHistory, required this.favoritesHistory});

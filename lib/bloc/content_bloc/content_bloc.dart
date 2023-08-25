@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_repo_viewer/extensions/search_queries_actions.dart';
 import 'package:github_repo_viewer/repositories/github_api_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -14,16 +15,26 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final GithubApiRepository githubApiRepository;
 
   ContentBloc({required this.githubApiRepository}) : super(const InitialContentState()) {
+    on<StartInitEvent>(_startInit);
     on<SearchGithubRepositoryEvent>(_searchGithubRepository);
     on<AddGithubRepositoryToFavoritesEvent>(_addGithubRepositoryToFavorites);
     on<RemoveGithubRepositoryFromFavoritesEvent>(_removeGithubRepositoryFromFavorites);
+  }
+
+  Future<void> _startInit(StartInitEvent event, Emitter<ContentState> emit) async {
+    emit(LoadedContentState(
+      githubRepositories: state.githubRepositories,
+      favoritesRepositories: state.favoritesRepositories,
+      searchHistory: state.searchHistory,
+      favoritesHistory: state.favoritesHistory,
+    ));
   }
 
   Future<void> _searchGithubRepository(SearchGithubRepositoryEvent event, Emitter<ContentState> emit) async {
     emit(
       LoadingContentState(
         favoritesRepositories: state.favoritesRepositories,
-        searchHistory: state.searchHistory,
+        searchHistory: state.searchHistory.addAndShift(event.toSearch),
         favoritesHistory: state.favoritesHistory,
       ),
     );
