@@ -15,7 +15,7 @@ class FavoritePage extends StatelessWidget {
     return Scaffold(
       appBar: CustomCupertinoAppBar(
         height: Constants.appBarHeight,
-        middleTitle: "Favorite repo list",
+        middleTitle: "Favorite repos list",
         leading: CustomCupertinoAppBarButton(
           padding: EdgeInsets.zero,
           onPressed: () => context.pop(),

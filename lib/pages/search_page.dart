@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:github_repo_viewer/constants.dart';
+import 'package:github_repo_viewer/repositories/github_api_repository.dart';
 import 'package:github_repo_viewer/widgets/custom_cupertino_app_bar/custom_cupertino_app_bar.dart';
 import 'package:github_repo_viewer/widgets/custom_cupertino_app_bar/custom_cupertino_app_bar_button.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +16,7 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomCupertinoAppBar(
         height: Constants.appBarHeight,
-        middleTitle: "Github repo list",
+        middleTitle: "Github repos list",
         trailing: CustomCupertinoAppBarButton(
           padding: EdgeInsets.zero,
           onPressed: () => context.go('/search/favorite'),
