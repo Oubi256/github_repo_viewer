@@ -6,12 +6,9 @@ import 'package:github_repo_viewer/constants.dart';
 import 'package:github_repo_viewer/widgets/custom_cupertino_app_bar.dart';
 import 'package:github_repo_viewer/widgets/custom_search_field.dart';
 import 'package:github_repo_viewer/widgets/history_list_view.dart';
-import 'package:github_repo_viewer/widgets/search_card.dart';
-import 'package:github_repo_viewer/widgets/search_history_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/custom_svg_item_button.dart';
-import '../widgets/halfscreen_info_text.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -87,14 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   }
                   if (state.runtimeType == LoadedContentState && showHistory) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Search History", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Constants.accentPrimaryColor)),
-                        SizedBox(height: Constants.headerBottomSeparatorHeight),
-                        HistoryListView(history: state.searchHistory),
-                      ],
-                    );
+                    return HistoryListView(history: state.searchHistory);
                   }
                   return SizedBox();
                 },

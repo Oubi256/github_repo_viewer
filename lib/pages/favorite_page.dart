@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_repo_viewer/widgets/repositories_list_view.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/content_bloc/content_bloc.dart';
@@ -29,26 +30,16 @@ class FavoritePage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: Constants.headerBottomSeparatorHeight),
-            BlocBuilder<ContentBloc, ContentState>(
-              builder: (context, state) {
-                if (state.favoritesRepositories.isEmpty) {
-                  return const HalfscreenInfoText("You have no favorites.\nClick on star while searching to add first favorite");
-                }
-                return SingleChildScrollView(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: state.favoritesRepositories.length,
-                    itemBuilder: (context, index) {
-                      return SearchCard(onCheckboxChanged: (value) {}, title: state.favoritesRepositories[index].name);
-                    },
-                    separatorBuilder: (BuildContext context, int index) => SizedBox(
-                      height: Constants.verticalItemSeparatorHeight,
-                    ),
-                  ),
-                );
-              },
+            Expanded(
+              child: BlocBuilder<ContentBloc, ContentState>(
+                builder: (context, state) {
+                  if (state.runtimeType == LoadedContentState) {
+                    return RepositoriesListView(repositories: state.favoritesRepositories);
+                  }
+                  return SizedBox();
+                },
+              ),
             ),
-
           ],
         ),
       ),
