@@ -17,12 +17,8 @@ class FavoritePage extends StatelessWidget {
         height: Constants.appBarHeight,
         middleTitle: "Favorite repos list",
         leading: CustomCupertinoAppBarButton(
-          padding: EdgeInsets.zero,
           onPressed: () => context.pop(),
-          icon: SvgPicture.asset(
-            "assets/icons/left.svg",
-            height: Constants.appBarButtonIconHeight,
-          ),
+          svgIconAssetPath: "assets/icons/left.svg",
         ),
       ),
       body: Center(

@@ -12,10 +12,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'bloc/content_bloc/content_bloc.dart';
 
-part 'cupertino_theme_config.dart';
+part 'theme_config.dart';
 
 part 'router_config.dart';
-
 
 void main() {
   // GoogleFonts used to reduce code when connecting multi-file fonts.
@@ -35,11 +34,12 @@ class GithubRepoViewerApp extends StatelessWidget {
         child: ScreenUtilInit(
           designSize: const Size(393, 852),
           builder: (_, __) {
-            return CupertinoApp.router(
+            return MaterialApp.router(
+              locale: const Locale("en"),
               debugShowCheckedModeBanner: false,
               routerConfig: _routerConfig,
               title: Constants.appTitle,
-              theme: _cupertinoThemeConfig,
+              theme: _themeConfig,
             );
           },
         ),

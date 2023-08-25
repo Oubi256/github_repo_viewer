@@ -26,8 +26,9 @@ class CustomCupertinoAppBar extends StatelessWidget implements PreferredSizeWidg
       child: SizedBox(
         height: height,
         child: CupertinoNavigationBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           padding: contentPadding,
-          middle: middleTitle != null ? Text("$middleTitle") : null,
+          middle: middleTitle != null ? Text("$middleTitle", style: Theme.of(context).textTheme.titleMedium) : null,
           trailing: trailing,
           leading: Container(width: 44.r, height: 44.r, alignment: Alignment.centerLeft, child: leading,), // TODO: Fix it
         ),
