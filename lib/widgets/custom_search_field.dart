@@ -6,7 +6,8 @@ import '../constants.dart';
 
 class CustomSearchField extends StatefulWidget {
   final Function(String)? onSubmitted;
-  const CustomSearchField({super.key, this.onSubmitted});
+  final FocusNode focusNode;
+  const CustomSearchField({super.key, this.onSubmitted, required this.focusNode});
 
   @override
   State<CustomSearchField> createState() => _CustomSearchFieldState();
@@ -14,16 +15,15 @@ class CustomSearchField extends StatefulWidget {
 
 class _CustomSearchFieldState extends State<CustomSearchField> {
   final TextEditingController controller = TextEditingController(text: "");
-  final FocusNode focusNode = FocusNode();
   Color? fillColor;
   bool clearButtonEnabled = false;
 
   void searchBackgroundColorFocusHandler() {
-    if (focusNode.hasFocus && fillColor == null) {
+    if (widget.focusNode.hasFocus && fillColor == null) {
       setState(() {
         fillColor = Constants.accentSecondaryColor;
       });
-    } else if (!focusNode.hasFocus && fillColor != null) {
+    } else if (!widget.focusNode.hasFocus && fillColor != null) {
       setState(() {
         fillColor = null;
         print("COLAPS");
@@ -45,14 +45,14 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
 
   @override
   void initState() {
-    focusNode.addListener(searchBackgroundColorFocusHandler);
+    widget.focusNode.addListener(searchBackgroundColorFocusHandler);
     controller.addListener(searchClearButtonHandler);
     super.initState();
   }
 
   @override
   void dispose() {
-    focusNode.dispose();
+    widget.focusNode.dispose();
     controller.dispose();
     super.dispose();
   }
@@ -61,7 +61,7 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
   Widget build(BuildContext context) {
     return TextField(
       key: const ValueKey("search_field"),
-      focusNode: focusNode,
+      focusNode: widget.focusNode,
       controller: controller,
       onSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
@@ -86,9 +86,9 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
           padding: Constants.searchFieldPrefixIconPadding,
           child: clearButtonEnabled
               ? CustomSvgIconButton(
-                  onPressed: () {},
-                  svgIconAssetPath: 'assets/icons/close.svg',
-                )
+            onPressed: () {},
+            svgIconAssetPath: 'assets/icons/close.svg',
+          )
               : null,
         ),
       ),
