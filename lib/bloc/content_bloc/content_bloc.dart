@@ -12,9 +12,10 @@ part 'content_event.dart';
 part 'content_state.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
-  final GithubApiRepository githubApiRepository;
+  late final GithubApiRepository _githubApiRepository;
 
-  ContentBloc({required this.githubApiRepository}) : super(const InitialContentState()) {
+  ContentBloc({required GithubApiRepository githubApiRepository}) : super(const InitialContentState()) {
+    _githubApiRepository = githubApiRepository;
     on<StartInitEvent>(_startInit);
     on<SearchGithubRepositoryEvent>(_searchGithubRepository);
     on<AddGithubRepositoryToFavoritesEvent>(_addGithubRepositoryToFavorites);
@@ -31,6 +32,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   }
 
   Future<void> _searchGithubRepository(SearchGithubRepositoryEvent event, Emitter<ContentState> emit) async {
+    if(state.runtimeType == LoadingContentState) return;
+
     emit(
       LoadingContentState(
         favoritesRepositories: state.favoritesRepositories,
@@ -39,7 +42,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       ),
     );
 
-    final List<GithubRepository> githubRepositories = await githubApiRepository.gerRepositories(byName: event.toSearch);
+    final List<GithubRepository> githubRepositories = await _githubApiRepository.gerRepositories(byName: event.toSearch);
 
     emit(
       LoadedContentState(

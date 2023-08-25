@@ -37,40 +37,41 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             Padding(
               padding: Constants.verticalTextFieldPadding,
-              child: SizedBox(height: Constants.searchFieldHeight, child: const CustomSearchField()),
+              child: SizedBox(
+                  height: Constants.searchFieldHeight,
+                  child: CustomSearchField(
+                    onSubmitted: (query) => query.isNotEmpty ? context.read<ContentBloc>().add(SearchGithubRepositoryEvent(query)) : null,
+                  )),
             ),
             Text("Search History", style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Constants.accentPrimaryColor)),
             SizedBox(height: Constants.headerBottomSeparatorHeight),
             BlocBuilder<ContentBloc, ContentState>(
               builder: (context, state) {
-                switch (state.runtimeType) {
-                  case LoadedContentState:
-                    return Expanded(
-                      child: AnimatedCrossFade(
-                        firstChild: SingleChildScrollView(
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: state.searchHistory.length,
-                            itemBuilder: (context, index) {
-                              return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
-                            },
-                            separatorBuilder: (BuildContext context, int index) => SizedBox(
-                              height: Constants.verticalItemSeparatorHeight,
-                            ),
-                          ),
-                        ),
-                        secondChild: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: HalfscreenInfoText("Nothing was find for your search.\nPlease check the spelling"),
-                        ),
-                        crossFadeState: state.searchHistory.isEmpty ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                        duration: Duration(microseconds: 500),
-                      ),
-                    );
-                  case LoadingContentState:
-                    return CupertinoActivityIndicator();
+                if (state.runtimeType == LoadingContentState) {
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: CupertinoActivityIndicator(),
+                  );
                 }
-                return const SizedBox();
+                if (state.runtimeType == LoadedContentState) {
+                  if (state.searchHistory.isEmpty) {
+                    return const HalfscreenInfoText("Nothing was find for your search.\nPlease check the spelling");
+                  }
+                  return SingleChildScrollView(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: state.searchHistory.length,
+                      itemBuilder: (context, index) {
+                        return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) => SizedBox(
+                        height: Constants.verticalItemSeparatorHeight,
+                      ),
+                    ),
+                  );
+                }
+
+                return SizedBox();
               },
             ),
           ],

@@ -31,33 +31,24 @@ class FavoritePage extends StatelessWidget {
             SizedBox(height: Constants.headerBottomSeparatorHeight),
             BlocBuilder<ContentBloc, ContentState>(
               builder: (context, state) {
-                switch (state.runtimeType) {
-                  case LoadedContentState:
-                    return Expanded(
-                      child: AnimatedCrossFade(
-                        firstChild: SingleChildScrollView(
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: state.favoritesRepositories.length,
-                            itemBuilder: (context, index) {
-                              return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
-                            },
-                            separatorBuilder: (BuildContext context, int index) => SizedBox(
-                              height: Constants.verticalItemSeparatorHeight,
-                            ),
-                          ),
-                        ),
-                        secondChild: HalfscreenInfoText("You have no favorites.\nClick on star while searching to add first favorite"),
-                        crossFadeState: state.searchHistory.isEmpty ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                        duration: Duration(microseconds: 500),
-                      ),
-                    );
-                  case LoadingContentState:
-                    return CupertinoActivityIndicator();
+                if (state.favoritesRepositories.isEmpty) {
+                  return const HalfscreenInfoText("You have no favorites.\nClick on star while searching to add first favorite");
                 }
-                return const SizedBox();
+                return SingleChildScrollView(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: state.favoritesRepositories.length,
+                    itemBuilder: (context, index) {
+                      return SearchCard(onCheckboxChanged: (value) {}, title: state.favoritesRepositories[index].name);
+                    },
+                    separatorBuilder: (BuildContext context, int index) => SizedBox(
+                      height: Constants.verticalItemSeparatorHeight,
+                    ),
+                  ),
+                );
               },
             ),
+
           ],
         ),
       ),

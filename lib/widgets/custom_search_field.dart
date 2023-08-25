@@ -5,7 +5,8 @@ import 'package:github_repo_viewer/widgets/custom_svg_item_button.dart';
 import '../constants.dart';
 
 class CustomSearchField extends StatefulWidget {
-  const CustomSearchField({super.key});
+  final Function(String)? onSubmitted;
+  const CustomSearchField({super.key, this.onSubmitted});
 
   @override
   State<CustomSearchField> createState() => _CustomSearchFieldState();
@@ -59,9 +60,10 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      key: const ValueKey("search_field"),
       focusNode: focusNode,
       controller: controller,
-      key: const ValueKey("search_field"),
+      onSubmitted: widget.onSubmitted,
       decoration: InputDecoration(
         hintText: "Search",
         filled: true,
