@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:github_repo_viewer/widgets/custom_cupertino_app_bar/custom_cupertino_app_bar_button.dart';
+
+import 'custom_svg_item_button.dart';
 
 class CustomCupertinoAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
-  final CustomCupertinoAppBarButton? leading;
-  final CustomCupertinoAppBarButton? trailing;
+  final CustomSvgIconButton? leading;
+  final CustomSvgIconButton? trailing;
   final String? middleTitle;
   final EdgeInsetsDirectional? contentPadding;
 
@@ -30,7 +31,7 @@ class CustomCupertinoAppBar extends StatelessWidget implements PreferredSizeWidg
           padding: contentPadding,
           middle: middleTitle != null ? Text("$middleTitle", style: Theme.of(context).textTheme.titleMedium) : null,
           trailing: trailing,
-          leading: Container(width: 44.r, height: 44.r, alignment: Alignment.centerLeft, child: leading,), // TODO: Fix it
+          leading: Container(width: 44.r, height: 44.r, alignment: Alignment.centerLeft, child: leading), // TODO: Fix it
         ),
       ),
     );

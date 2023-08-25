@@ -8,7 +8,7 @@ ThemeData _themeConfig = ThemeData.light().copyWith(
     style: ButtonStyle(
       elevation: MaterialStateProperty.all<double>(0),
       iconColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+        (Set<MaterialState> states) {
           if (states.contains(MaterialState.disabled)) {
             return Constants.buttonDisabledIconColor;
           }
@@ -44,6 +44,23 @@ ThemeData _themeConfig = ThemeData.light().copyWith(
       padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
     ),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: Constants.layerColor,
+    constraints: BoxConstraints(maxHeight: Constants.searchFieldHeight, minHeight: Constants.searchFieldHeight),
+    disabledBorder: OutlineInputBorder(borderRadius: Constants.searchFieldBorderRadius, borderSide: const BorderSide(width: 0, color: Colors.transparent)),
+    focusedBorder: OutlineInputBorder(borderRadius: Constants.searchFieldBorderRadius, borderSide: BorderSide(color: Constants.accentPrimaryColor, width: Constants.searchFieldBorderWidth)),
+    enabledBorder: OutlineInputBorder(borderRadius: Constants.searchFieldBorderRadius, borderSide: const BorderSide(width: 0, color: Colors.transparent)),
+    hintStyle: GoogleFonts.raleway(
+      textStyle: TextStyle(
+        color: Constants.textPlaceholderColor,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w400,
+        height: 20.sp / 14.sp,
+        letterSpacing: 0,
+      ),
+    ),
+  ),
   textTheme: TextTheme(
     titleMedium: GoogleFonts.raleway(
       textStyle: TextStyle(
@@ -64,5 +81,4 @@ ThemeData _themeConfig = ThemeData.light().copyWith(
       ),
     ),
   ),
-
 );

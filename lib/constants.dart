@@ -21,7 +21,11 @@ class Constants {
   
   static double searchFieldHeight = 56.h;
   static BorderRadius searchFieldBorderRadius = BorderRadius.circular(30);
+  static double searchFieldBorderWidth = 2;
   static EdgeInsets searchFieldContentPadding = EdgeInsets.all(16.w);
+  static EdgeInsets searchFieldPrefixIconPadding = EdgeInsets.only(left: 16.r, top: 16.r, bottom: 16.r, right: 10.r);
+  static EdgeInsets searchFieldSuffixIconPadding = EdgeInsets.only(left: 10.r, top: 16.r, bottom: 16.r, right: 16.r);
+
 
   static Color backgroundColor = const Color(0xFFF9F9F9);
   static Color layerColor = const Color(0xFFF2F2F2);

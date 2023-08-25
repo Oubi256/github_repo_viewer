@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:github_repo_viewer/constants.dart';
 
-class CustomCupertinoAppBarButton extends StatefulWidget {
+import '../constants.dart';
+
+class CustomSvgIconButton extends StatefulWidget {
   final String svgIconAssetPath;
   final VoidCallback onPressed;
 
-  const CustomCupertinoAppBarButton({
-    super.key,
-    required this.svgIconAssetPath,
-    required this.onPressed,
-  });
+  const CustomSvgIconButton({super.key, required this.svgIconAssetPath, required this.onPressed});
 
   @override
-  State<CustomCupertinoAppBarButton> createState() => _CustomCupertinoAppBarButtonState();
+  State<CustomSvgIconButton> createState() => _CustomSvgIconButtonState();
 }
 
-class _CustomCupertinoAppBarButtonState extends State<CustomCupertinoAppBarButton> {
+class _CustomSvgIconButtonState extends State<CustomSvgIconButton> {
   final MaterialStatesController materialStatesController = MaterialStatesController();
   late Color iconColor;
 
-  void _updateIconColor(BuildContext context,{bool forceRender = true}) {
+  void _updateIconColor(BuildContext context, {bool forceRender = true}) {
     iconColor = Theme.of(context).elevatedButtonTheme.style!.iconColor!.resolve(materialStatesController.value)!;
-
     if (forceRender) setState(() {});
   }
 
