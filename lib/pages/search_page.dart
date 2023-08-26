@@ -88,9 +88,11 @@ class _SearchPageState extends State<SearchPage> {
                 buildWhen: firstSearchHandler,
                 builder: (context, state) {
                   if (state.runtimeType == LoadingContentState) {
-                    return const Align(
+                    return Align(
                       alignment: Alignment.topCenter,
-                      child: CupertinoActivityIndicator(),
+                      child: CupertinoActivityIndicator(
+                        color: Constants.layerColor,
+                      ),
                     );
                   }
                   if (state.runtimeType == LoadedContentState && showContent && !showHistory) {

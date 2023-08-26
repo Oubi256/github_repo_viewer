@@ -7,6 +7,7 @@ import 'package:github_repo_viewer/pages/favorite_page.dart';
 import 'package:github_repo_viewer/pages/loading_page.dart';
 import 'package:github_repo_viewer/pages/search_page.dart';
 import 'package:github_repo_viewer/repositories/github_api_repository.dart';
+import 'package:github_repo_viewer/repositories/hive_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,10 +28,13 @@ class GithubRepoViewerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => GithubApiRepository.init(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => HiveRepository.init(), lazy: true,),
+        RepositoryProvider(create: (context) => GithubApiRepository.init(), lazy: true,),
+      ],
       child: BlocProvider(
-        create: (context) => ContentBloc(githubApiRepository: context.read<GithubApiRepository>())..add(const StartInitEvent()),
+        create: (context) => ContentBloc(hiveRepository: context.read<HiveRepository>(), githubApiRepository: context.read<GithubApiRepository>()),
         child: ScreenUtilInit(
           designSize: const Size(393, 852),
           builder: (_, __) {

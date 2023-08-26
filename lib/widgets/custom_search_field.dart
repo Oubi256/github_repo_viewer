@@ -7,6 +7,7 @@ import '../constants.dart';
 class CustomSearchField extends StatefulWidget {
   final Function(String)? onSubmitted;
   final FocusNode focusNode;
+
   const CustomSearchField({super.key, this.onSubmitted, required this.focusNode});
 
   @override
@@ -26,7 +27,6 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
     } else if (!widget.focusNode.hasFocus && fillColor != null) {
       setState(() {
         fillColor = null;
-        print("COLAPS");
       });
     }
   }
@@ -85,10 +85,13 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
           height: Constants.searchFieldHeight,
           padding: Constants.searchFieldPrefixIconPadding,
           child: clearButtonEnabled
-              ? CustomSvgIconButton(
-            onPressed: () {},
-            svgIconAssetPath: 'assets/icons/close.svg',
-          )
+              ? ElevatedButton(
+                  onPressed: () => controller.clear(),
+                  style: TextButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
+                  child: SvgPicture.asset(
+                    'assets/icons/close.svg',
+                  ),
+                )
               : null,
         ),
       ),
