@@ -32,7 +32,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   }
 
   Future<void> _searchGithubRepository(SearchGithubRepositoryEvent event, Emitter<ContentState> emit) async {
-    if(state.runtimeType == LoadingContentState) return;
+    if (state.runtimeType == LoadingContentState) return;
 
     emit(
       LoadingContentState(
@@ -54,7 +54,33 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     );
   }
 
-  Future<void> _addGithubRepositoryToFavorites(AddGithubRepositoryToFavoritesEvent event, Emitter<ContentState> emit) async {}
+  Future<void> _addGithubRepositoryToFavorites(AddGithubRepositoryToFavoritesEvent event, Emitter<ContentState> emit) async {
+    if (state.favoritesRepositories.contains(event.toAdd)) return;
 
-  Future<void> _removeGithubRepositoryFromFavorites(RemoveGithubRepositoryFromFavoritesEvent event, Emitter<ContentState> emit) async {}
+    List<GithubRepository> updatedFavoritesRepositories = List.from(state.favoritesRepositories)..insert(0, event.toAdd);
+
+    emit(
+      LoadedContentState(
+        githubRepositories: state.githubRepositories,
+        favoritesRepositories: updatedFavoritesRepositories,
+        searchHistory: state.searchHistory,
+        favoritesHistory: state.favoritesHistory,
+      ),
+    );
+  }
+
+  Future<void> _removeGithubRepositoryFromFavorites(RemoveGithubRepositoryFromFavoritesEvent event, Emitter<ContentState> emit) async {
+    if (!state.favoritesRepositories.contains(event.toRemove)) return;
+
+    List<GithubRepository> updatedFavoritesRepositories = List.from(state.favoritesRepositories)..remove(event.toRemove);
+
+    emit(
+      LoadedContentState(
+        githubRepositories: state.githubRepositories,
+        favoritesRepositories: updatedFavoritesRepositories,
+        searchHistory: state.searchHistory,
+        favoritesHistory: state.favoritesHistory,
+      ),
+    );
+  }
 }

@@ -93,15 +93,42 @@ class _SearchPageState extends State<SearchPage> {
                       child: CupertinoActivityIndicator(),
                     );
                   }
-                  if (state.runtimeType == LoadedContentState && showContent) {
-                    return SearchCardsListView(searchCards: state.githubRepositories, itemBuilder: (context, index) {
-                      return SearchCard(onCheckboxChanged: (value) {}, title: state.githubRepositories[index].fullName);
-                    }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite", headerLabel: "What we found",);
+                  if (state.runtimeType == LoadedContentState && showContent && !showHistory) {
+                    return SearchCardsListView(
+                      searchCards: state.githubRepositories,
+                      itemBuilder: (context, index) {
+                        return SearchCard(
+                          key: ValueKey(state.githubRepositories[index].id),
+                          onCheckboxChanged: (value) {
+                            value
+                                ? context.read<ContentBloc>().add(
+                                      AddGithubRepositoryToFavoritesEvent(state.githubRepositories[index]),
+                                    )
+                                : context.read<ContentBloc>().add(
+                                      RemoveGithubRepositoryFromFavoritesEvent(state.githubRepositories[index]),
+                                    );
+                          },
+                          title: state.githubRepositories[index].fullName,
+                          isFavorite: state.favoritesRepositories.contains(state.githubRepositories[index]),
+                        );
+                      },
+                      emptyLabel: "Nothing was find for your search.\nPlease check the spelling",
+                      headerLabel: "What we found",
+                    );
                   }
-                  if (state.runtimeType == LoadedContentState && showContent && showHistory) {
-                    return SearchCardsListView(searchCards: state.searchHistory, itemBuilder: (context, index) {
-                      return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
-                    }, emptyLabel: "Nothing was find for your search.\nPlease check the spelling", headerLabel: "Search History",);
+                  if (state.runtimeType == LoadedContentState && showContent) {
+                    return SearchCardsListView(
+                      searchCards: state.searchHistory,
+                      itemBuilder: (context, index) {
+                        return SearchCard(
+                          onCheckboxChanged: (value) {},
+                          title: state.searchHistory[index],
+                          isFavorite: false,
+                        );
+                      },
+                      emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite",
+                      headerLabel: "Search History",
+                    );
                   }
                   return SizedBox();
                 },

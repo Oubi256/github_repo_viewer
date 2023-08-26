@@ -5,9 +5,10 @@ import 'favorite_check_button.dart';
 
 class SearchCard extends StatelessWidget {
   final void Function(bool value) onCheckboxChanged;
+  final bool isFavorite;
   final String title;
 
-  const SearchCard({super.key, required this.onCheckboxChanged, required this.title});
+  const SearchCard({super.key, required this.onCheckboxChanged, required this.title, required this.isFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SearchCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          FavoriteCheckButton(isFavorite: true, onCheckboxChanged: (bool value) {}),
+          FavoriteCheckButton(isFavorite: isFavorite, onCheckboxChanged: onCheckboxChanged),
         ],
       ),
     );

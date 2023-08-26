@@ -32,9 +32,21 @@ class FavoritePage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
                 builder: (context, state) {
-                  return SearchCardsListView(searchCards: state.favoritesRepositories, itemBuilder: (context, index) {
-                    return SearchCard(onCheckboxChanged: (value) {}, title: state.favoritesRepositories[index].name);
-                  }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite");
+                  return SearchCardsListView(
+                      searchCards: state.favoritesRepositories,
+                      itemBuilder: (context, index) {
+                        return SearchCard(
+                          key: ValueKey("favorite_${state.favoritesRepositories[index].id}"),
+                          onCheckboxChanged: (value) {
+                            context.read<ContentBloc>().add(
+                              RemoveGithubRepositoryFromFavoritesEvent(state.favoritesRepositories[index]),
+                            );
+                          },
+                          title: state.favoritesRepositories[index].fullName,
+                          isFavorite: true,
+                        );
+                      },
+                      emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite");
                 },
               ),
             ),
