@@ -21,6 +21,17 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final FocusNode searchFocusNode = FocusNode();
   bool showContent = true;
+  bool showHistory = true;
+
+  /// Hide history after first search used
+  bool firstSearchHandler(ContentState contentState, _) {
+    if (contentState.runtimeType != InitialContentState && showHistory == true) {
+      setState(() {
+        showHistory = false;
+      });
+    }
+    return true;
+  }
 
   void showingHistoryFocusHandler() {
     if (searchFocusNode.hasFocus && showContent == true) {
@@ -74,6 +85,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
+                buildWhen: firstSearchHandler,
                 builder: (context, state) {
                   if (state.runtimeType == LoadingContentState) {
                     return const Align(
@@ -83,13 +95,13 @@ class _SearchPageState extends State<SearchPage> {
                   }
                   if (state.runtimeType == LoadedContentState && showContent) {
                     return SearchCardsListView(searchCards: state.githubRepositories, itemBuilder: (context, index) {
-                      return SearchCard(onCheckboxChanged: (value) {}, title: state.githubRepositories[index].name);
-                    }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite", headerLabel: "Search History",);
+                      return SearchCard(onCheckboxChanged: (value) {}, title: state.githubRepositories[index].fullName);
+                    }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite", headerLabel: "What we found",);
                   }
-                  if (state.runtimeType == LoadedContentState && showContent) {
+                  if (state.runtimeType == LoadedContentState && showContent && showHistory) {
                     return SearchCardsListView(searchCards: state.searchHistory, itemBuilder: (context, index) {
                       return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
-                    }, emptyLabel: "Nothing was find for your search.\nPlease check the spelling", headerLabel: "What we found",);
+                    }, emptyLabel: "Nothing was find for your search.\nPlease check the spelling", headerLabel: "Search History",);
                   }
                   return SizedBox();
                 },
