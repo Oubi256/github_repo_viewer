@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class HalfscreenInfoText extends StatelessWidget {
   final String label;
 

@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_repo_viewer/widgets/repositories_list_view.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/content_bloc/content_bloc.dart';
 import '../constants.dart';
 import '../widgets/custom_cupertino_app_bar.dart';
 import '../widgets/custom_svg_item_button.dart';
-import '../widgets/halfscreen_info_text.dart';
 import '../widgets/search_card.dart';
+import '../widgets/search_cards_list_view.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({super.key});
@@ -33,10 +32,9 @@ class FavoritePage extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
                 builder: (context, state) {
-                  if (state.runtimeType == LoadedContentState) {
-                    return RepositoriesListView(repositories: state.favoritesRepositories);
-                  }
-                  return SizedBox();
+                  return SearchCardsListView(searchCards: state.favoritesRepositories, itemBuilder: (context, index) {
+                    return SearchCard(onCheckboxChanged: (value) {}, title: state.favoritesRepositories[index].name);
+                  }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite");
                 },
               ),
             ),

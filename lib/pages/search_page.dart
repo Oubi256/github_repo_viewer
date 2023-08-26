@@ -5,10 +5,11 @@ import 'package:github_repo_viewer/bloc/content_bloc/content_bloc.dart';
 import 'package:github_repo_viewer/constants.dart';
 import 'package:github_repo_viewer/widgets/custom_cupertino_app_bar.dart';
 import 'package:github_repo_viewer/widgets/custom_search_field.dart';
-import 'package:github_repo_viewer/widgets/history_list_view.dart';
+import 'package:github_repo_viewer/widgets/search_cards_list_view.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/custom_svg_item_button.dart';
+import '../widgets/search_card.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -19,18 +20,16 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final FocusNode searchFocusNode = FocusNode();
-  bool showHistory = true;
+  bool showContent = true;
 
   void showingHistoryFocusHandler() {
-    if (searchFocusNode.hasFocus && showHistory == true) {
-      print(false);
+    if (searchFocusNode.hasFocus && showContent == true) {
       setState(() {
-        showHistory = false;
+        showContent = false;
       });
-    } else if (!searchFocusNode.hasFocus && showHistory == false) {
-      print(true);
+    } else if (!searchFocusNode.hasFocus && showContent == false) {
       setState(() {
-        showHistory = true;
+        showContent = true;
       });
     }
   }
@@ -73,7 +72,6 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            //if (showHistory) const SearchHistoryWidget(),
             Expanded(
               child: BlocBuilder<ContentBloc, ContentState>(
                 builder: (context, state) {
@@ -83,8 +81,15 @@ class _SearchPageState extends State<SearchPage> {
                       child: CupertinoActivityIndicator(),
                     );
                   }
-                  if (state.runtimeType == LoadedContentState && showHistory) {
-                    return HistoryListView(history: state.searchHistory);
+                  if (state.runtimeType == LoadedContentState && showContent) {
+                    return SearchCardsListView(searchCards: state.githubRepositories, itemBuilder: (context, index) {
+                      return SearchCard(onCheckboxChanged: (value) {}, title: state.githubRepositories[index].name);
+                    }, emptyLabel: "You have no favorites.\nClick on star while searching to add first favorite", headerLabel: "Search History",);
+                  }
+                  if (state.runtimeType == LoadedContentState && showContent) {
+                    return SearchCardsListView(searchCards: state.searchHistory, itemBuilder: (context, index) {
+                      return SearchCard(onCheckboxChanged: (value) {}, title: state.searchHistory[index]);
+                    }, emptyLabel: "Nothing was find for your search.\nPlease check the spelling", headerLabel: "What we found",);
                   }
                   return SizedBox();
                 },
